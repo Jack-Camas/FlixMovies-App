@@ -8,10 +8,17 @@ import Nuke
 
 // TODO: Add table view data source conformance
 class ViewController: UIViewController {
-
-
+	private var movies = [Movie]()
+	
     // TODO: Add table view outlet
-
+	lazy var tableview: UITableView = {
+		let table = UITableView(frame: .zero, style: .plain)
+		table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+		table.delegate = self
+		table.dataSource = self
+		table.translatesAutoresizingMaskIntoConstraints = false
+		return table
+	}()
 
     // TODO: Add property to store fetched movies array
 
@@ -20,10 +27,20 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // TODO: Assign table view data source
-
-
+		setupUI()
         fetchMovies()
     }
+	
+	private func setupUI(){
+		view.addSubview(tableview)
+		
+		NSLayoutConstraint.activate([
+			tableview.topAnchor.constraint(equalTo: view.topAnchor),
+			tableview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			tableview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			tableview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+		])
+	}
 
     // Fetches a list of popular movies from the TMDB API
     private func fetchMovies() {
@@ -79,9 +96,8 @@ class ViewController: UIViewController {
                     }
 
                     // TODO: Store movies in the `movies` property on the view controller
-
-
-
+					self?.movies = movies
+					self?.tableview.reloadData()
                 }
             } catch {
                 print("🚨 Error decoding JSON data into Movie Response: \(error.localizedDescription)")
@@ -94,4 +110,19 @@ class ViewController: UIViewController {
     }
 
 
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return movies.count
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+		
+		let movie = movies[indexPath.row]
+		cell.textLabel?.text = movie.title
+		
+		return cell
+	}
 }
