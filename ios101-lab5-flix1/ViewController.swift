@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     // TODO: Add table view outlet
 	lazy var tableview: UITableView = {
 		let table = UITableView(frame: .zero, style: .plain)
-		table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+		table.register(MovieCell.self, forCellReuseIdentifier: MovieCell.id)
 		table.delegate = self
 		table.dataSource = self
 		table.translatesAutoresizingMaskIntoConstraints = false
@@ -118,11 +118,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-		
+		let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.id, for: indexPath) as! MovieCell
 		let movie = movies[indexPath.row]
-		cell.textLabel?.text = movie.title
-		
+		cell.configure(with: movie)
 		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return 150
 	}
 }
