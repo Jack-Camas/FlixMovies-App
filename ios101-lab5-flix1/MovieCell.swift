@@ -64,11 +64,10 @@ class MovieCell: UITableViewCell {
 		
 		NSLayoutConstraint.activate([
 			//image contraints
-			image.topAnchor.constraint(equalTo: contentView.topAnchor),
-			image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+			image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+			image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
 			image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-			image.heightAnchor.constraint(equalToConstant: 150),
-			image.widthAnchor.constraint(equalToConstant: 150),
+			image.widthAnchor.constraint(equalToConstant: 100),
 			
 			//movie title contraints
 			titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -78,8 +77,8 @@ class MovieCell: UITableViewCell {
 			//movie description contraints
 			descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
 			descriptionLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10),
-			descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-			descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+			descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
+			descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
 			
 		])
 	}
